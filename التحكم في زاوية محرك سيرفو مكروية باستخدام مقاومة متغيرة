@@ -1,0 +1,22 @@
+#include <Servo.h>
+// ArduinOman
+Servo myServo;  // إنشاء كائن لمحرك السيرفو
+int potPin = A0;  // تعيين المدخل التماثلي A0 كمصدر لإشارة المقاومة المتغيرة
+int potValue;  // لتخزين قيمة المقاومة المتغيرة
+int angle;  // لتخزين زاوية محرك السيرفو
+
+void setup() {
+  myServo.attach(7);  // ربط محرك السيرفو بالمنفذ الرقمي 7
+  Serial.begin(9600);  // بدء الاتصال التسلسلي بسرعة 9600 بت في الثانية
+}
+
+void loop() {
+  potValue = analogRead(potPin);  // قراءة القيمة التماثلية من المقاومة المتغيرة
+  angle = map(potValue, 0, 1023, 0, 180);  // تحويل قيمة المقاومة إلى زاوية بين 0 و 180 درجة
+  myServo.write(angle);  // تعيين زاوية محرك السيرفو
+  Serial.print("Potentiometer Value: ");  // طباعة قيمة المقاومة المتغيرة في المراقب التسلسلي
+  Serial.print(potValue);
+  Serial.print(" | Servo Angle: ");  // طباعة زاوية محرك السيرفو في المراقب التسلسلي
+  Serial.println(angle);
+  delay(15);  // تأخير قصير لإتاحة الوقت لمحرك السيرفو للتحرك
+}
